@@ -1,0 +1,43 @@
+# depslib dependency file v1.0
+1694185005 source:c:\users\rodri\onedrive\desktop\programa puentes\laboratorio de computación 2\trabajos practicos colaborativos\trabajo práctico colaborativo\main.cpp
+	"Menu.h"
+
+1694185538 c:\users\rodri\onedrive\desktop\programa puentes\laboratorio de computación 2\trabajos practicos colaborativos\trabajo práctico colaborativo\menu.h
+	<windows.h>
+	<iostream>
+	"graficos.h"
+	"Funciones.h"
+
+1693600563 c:\users\rodri\onedrive\desktop\programa puentes\laboratorio de computación 2\trabajos practicos colaborativos\trabajo práctico colaborativo\fecha.h
+	<iostream>
+	<cstdlib>
+	<cstdio>
+	<ctime>
+	<cstring>
+	<windows.h>
+
+1694185589 c:\users\rodri\onedrive\desktop\programa puentes\laboratorio de computación 2\trabajos practicos colaborativos\trabajo práctico colaborativo\graficos.h
+	<iostream>
+
+1694183435 c:\users\rodri\onedrive\desktop\programa puentes\laboratorio de computación 2\trabajos practicos colaborativos\trabajo práctico colaborativo\funciones.h
+	"Structs.h"
+
+1694185153 c:\users\rodri\onedrive\desktop\programa puentes\laboratorio de computación 2\trabajos practicos colaborativos\trabajo práctico colaborativo\structs.h
+
+1694185005 source:c:\users\santi\desktop\utn-curs\2-cuatrimes\laboratorio 2\tp-1\trabajo práctico colaborativo\main.cpp
+	"Menu.h"
+
+1694185538 c:\users\santi\desktop\utn-curs\2-cuatrimes\laboratorio 2\tp-1\trabajo práctico colaborativo\menu.h
+	<windows.h>
+	<iostream>
+	"graficos.h"
+	"Funciones.h"
+
+1694185589 c:\users\santi\desktop\utn-curs\2-cuatrimes\laboratorio 2\tp-1\trabajo práctico colaborativo\graficos.h
+	<iostream>
+
+1694183435 c:\users\santi\desktop\utn-curs\2-cuatrimes\laboratorio 2\tp-1\trabajo práctico colaborativo\funciones.h
+	"Structs.h"
+
+1694185153 c:\users\santi\desktop\utn-curs\2-cuatrimes\laboratorio 2\tp-1\trabajo práctico colaborativo\structs.h
+
