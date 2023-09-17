@@ -215,6 +215,7 @@ struct Pais obtenerRegistroPais(char *codigo){
     fclose(archivo);
 };
 
+// mUESTRA LAS CIUDADES Y LA CAPITAL DADO UN CODIGO DE PAIS
 void mostrarCiudadesxPaisYCapital(char *codigo,int idCapital){
     // Abrir archivo
     FILE *archivo;
@@ -236,14 +237,41 @@ void mostrarCiudadesxPaisYCapital(char *codigo,int idCapital){
     fclose(archivo);
 }
 
-struct Ciudad obtenerCapital(int idCiudad){
+// 5) --------------------------------------------------------------
+// Leer y guardar los Registros en un Vector.
+// Calcular el Total de Superficie Mundial.
+// Mostrar dentro de la función misma, NOMBRE - SUPERFICIE - PORCENTAJE %
 
+void listarPaises_Superficies(){
+    // Abrir archivo
+    FILE *archivo;
+    archivo = fopen(ARCHIVO_PAISES,"rb");
+    // Obteniendo cantidad de registros del archivo
+    fseek (archivo, 0, SEEK_END);
+    int tam = (ftell(archivo))/sizeof(Pais);
+    fseek (archivo, 0,0);
+    // Asignando poblaciones al vector
+    Pais vPaises[tam];
+    float vSuperficie[tam];
+    float superficieTotal=0;
+    fread(&vPaises,sizeof(Pais),tam,archivo);
+    for(int x=0;x<tam;x++){
+        vSuperficie[x]=vPaises[x]._superficie;
+        superficieTotal=superficieTotal+vSuperficie[x];
+    }
+    cout<<" "<<endl;
+    cout<<"PAISES / SUPERFICIES"<<endl;
+    cout<<" "<<endl;
+    cout<<"Superficie Mundial Total: "<<superficieTotal<<endl;
+    cout<<" "<<endl;
+    for(int x=0;x<tam;x++){
+        cout<<"Pais: "<<vPaises[x]._nombre<<endl;
+        cout<<"Superficie: "<<vPaises[x]._superficie<<" | Porcentaje: "<<((vPaises[x]._superficie)/superficieTotal)<<"%"<<endl;
+        cout<<" "<<endl;
+    }
+    cout<<" "<<endl;
+    fclose(archivo);
 };
-
-
-
-
-// Revisar la opción de pedir primero el ingreso para obtener el Registro y luego leer el archivo Ciudades.
 
 
 

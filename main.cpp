@@ -14,7 +14,6 @@
 int main()
 {
 
-
     //SetConsoleTitle("TRABAJO PRACTICO GRUPAL");
     //MenuPrincipal();
 
@@ -36,6 +35,8 @@ int main()
 
     //leerPaises();
 
-    mostrarCiudadesxPais();
+    //mostrarCiudadesxPais();
+
+    listarPaises_Superficies();
 
 }
