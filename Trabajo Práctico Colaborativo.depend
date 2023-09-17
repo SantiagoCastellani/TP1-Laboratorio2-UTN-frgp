@@ -41,3 +41,23 @@
 
 1694185153 c:\users\santi\desktop\utn-curs\2-cuatrimes\laboratorio 2\tp-1\trabajo práctico colaborativo\structs.h
 
+1694976438 source:c:\users\santi\desktop\trabajo práctico colaborativo\main.cpp
+	"Menu.h"
+	"Funciones.h"
+
+1694896335 c:\users\santi\desktop\trabajo práctico colaborativo\menu.h
+	<windows.h>
+	<iostream>
+	"graficos.h"
+	"Funciones.h"
+
+1694185589 c:\users\santi\desktop\trabajo práctico colaborativo\graficos.h
+	<iostream>
+
+1694976492 c:\users\santi\desktop\trabajo práctico colaborativo\funciones.h
+	<cstdio>
+	<string.h>
+	"Structs.h"
+
+1694185153 c:\users\santi\desktop\trabajo práctico colaborativo\structs.h
+

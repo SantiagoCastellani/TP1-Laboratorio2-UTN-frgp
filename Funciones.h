@@ -3,11 +3,14 @@
 
 // Colocar las Librerías que se utilizarán
 
+#include <cstdio>
+#include <string.h>
+
 #include "Structs.h" // Librería con los Structs y constantes de los Archivos
 
 /// --------------------------- PROTOTIPOS DE LAS FUNCIONES ---------------------------
 // 1) --------------------------------------------------------------
-bool existeRegistro(char *codigo);  // Verifico si existe Registro.
+bool existeRegistro(char *codigo);
 
 // 2) --------------------------------------------------------------
 void cargarPais();          // Cargo un registro de Struct.
@@ -61,6 +64,31 @@ int contarCiudades();   // Contar Registros Archivo Ciudades
 
 /// --------------------------- DESARROLLO DE LAS FUNCIONES ---------------------------
 
+// 1) --------------------------------------------------------------
+
+// Verifico si existe Registro.
+bool existeRegistro(char codigo[]){
+    int tam=0; // Cantidad de Registros del archivo
+    bool existe = false;
+    //Abrir Archivo
+    FILE *archivo;
+    archivo = fopen(ARCHIVO_PAISES,"rb");
+    // Obteniendo cantidad de registros del archivo
+    fseek (archivo, 0, SEEK_END);
+    tam = (ftell(archivo))/sizeof(Pais);
+    fseek (archivo, 0,0);
+    // Leer Archivo
+    Pais vPaises[tam];
+    fread(&vPaises,sizeof(Pais),tam,archivo);
+    for(int x=0;x<tam;x++){
+        if((strcmp(codigo,vPaises[x]._codigo))==0){
+            existe=true;
+        }
+    }
+    // Cerrar Archivo
+    fclose(archivo);
+    return existe;
+};
 
 
 
