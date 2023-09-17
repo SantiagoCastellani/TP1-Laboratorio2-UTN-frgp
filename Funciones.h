@@ -26,6 +26,7 @@ void mostrarPais(Pais reg); // Recibo el Registro leido del archivo y lo muestro
 void mostrarCiudadesxPais();                  // Leo el archivo Ciudades. Dentro de la función se debe pedir al Usuario que ingrese el nombre del Pais.
 struct Pais obtenerRegistroPais(char *pais);  // Recibe el nombre del Pais y busca su registro.
                                               // Revisar la opción de pedir primero el ingreso para obtener el Registro y luego leer el archivo Ciudades.
+void mostrarCiudadesxPaisYCapital(char *codigo,int idCapital);
 
 // 5) --------------------------------------------------------------
 void listarPaises_Superficies();    // Leer y guardar los Registros en un Vector.
@@ -152,7 +153,6 @@ void grabarPais(Pais reg){
 // Leo el Archivo.
 void leerPaises(){
     // Abrir el archivo
-    int x=0;
     FILE *archivo;
     Pais pais;
     archivo = fopen(PRUEBA_PAISES,"rb");
@@ -176,6 +176,75 @@ void mostrarPais(Pais reg){
     cout<<"Expectativa de Vida: "<<reg._expectativaDeVida<<endl;
     cout<<" "<<endl;
 };
+
+
+// 4) --------------------------------------------------------------
+
+// Leo el archivo Ciudades. Dentro de la función se debe pedir al Usuario que ingrese el nombre del Pais.
+void mostrarCiudadesxPais(){
+    char codigo[4];
+    cin.getline(codigo,4);
+    Pais pais = obtenerRegistroPais(codigo);
+    if(strcmp(codigo,pais._codigo)==0){
+        int idCapital = pais._capital;
+        cout<<" "<<endl;
+        cout<<"Ciudades de "<<pais._nombre<<endl;
+        cout<<" "<<endl;
+        mostrarCiudadesxPaisYCapital(codigo,idCapital);
+        cout<<" "<<endl;
+    } else {
+        cout<<"El nombre de pais es incorrecto"<<endl;
+    }
+};
+
+// Recibe el codigo del Pais y busca su registro.
+struct Pais obtenerRegistroPais(char *codigo){
+   // Abrir el archivo
+    int x=0;
+    FILE *archivo;
+    Pais pais;
+    archivo = fopen(PRUEBA_PAISES,"rb");
+    // Leer archivo
+    if(existeRegistro(codigo)){
+        while(fread(&pais,sizeof(Pais),1,archivo)==1){
+            if((strcmp(codigo,pais._codigo))==0){
+                return pais;
+            }
+        }
+    }
+    fclose(archivo);
+};
+
+void mostrarCiudadesxPaisYCapital(char *codigo,int idCapital){
+    // Abrir archivo
+    FILE *archivo;
+    Ciudad ciudad;
+    Ciudad ciudadCapital;
+    archivo = fopen(ARCHIVO_CIUDADES,"rb");
+    // Leer archivo
+    while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
+        if((strcmp(codigo,ciudad._idpais))==0){
+            cout<<ciudad._nombre<<" - Poblacion: "<<ciudad._poblacion<<endl;
+        }
+        if(idCapital==ciudad._ID){
+            ciudadCapital=ciudad;
+        }
+    }
+    cout<<""<<endl;
+    cout<<"La capital es :"<<ciudadCapital._nombre<<endl;
+    // Cerrar archivo
+    fclose(archivo);
+}
+
+struct Ciudad obtenerCapital(int idCiudad){
+
+};
+
+
+
+
+// Revisar la opción de pedir primero el ingreso para obtener el Registro y luego leer el archivo Ciudades.
+
 
 
 

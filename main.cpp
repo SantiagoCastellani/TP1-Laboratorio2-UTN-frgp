@@ -34,6 +34,8 @@ int main()
 */
     // Llamada de prueba a FUNCION 2
 
-    leerPaises();
+    //leerPaises();
+
+    mostrarCiudadesxPais();
 
 }
