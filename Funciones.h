@@ -8,6 +8,8 @@
 
 #include "Structs.h" // Librería con los Structs y constantes de los Archivos
 
+Pais reg;
+
 /// --------------------------- PROTOTIPOS DE LAS FUNCIONES ---------------------------
 // 1) --------------------------------------------------------------
 bool existeRegistro(char *codigo);
@@ -72,7 +74,8 @@ bool existeRegistro(char codigo[]){
     bool existe = false;
     //Abrir Archivo
     FILE *archivo;
-    archivo = fopen(ARCHIVO_PAISES,"rb");
+    //archivo = fopen(ARCHIVO_PAISES,"rb");
+    archivo = fopen("paisesdeprueba.dat","rb");
     // Obteniendo cantidad de registros del archivo
     fseek (archivo, 0, SEEK_END);
     tam = (ftell(archivo))/sizeof(Pais);
@@ -88,6 +91,90 @@ bool existeRegistro(char codigo[]){
     // Cerrar Archivo
     fclose(archivo);
     return existe;
+};
+
+// 2) --------------------------------------------------------------
+
+// Cargo un registro de Struct.
+void cargarPais(){
+    cout<<"- - - - - - - - "<<endl;
+    cout<<""<<endl;
+    cout<<"AGREGAR PAIS"<<endl;
+    cout<<""<<endl;
+    cout<<"Ingrese CODIGO: ";
+    cin.getline(reg._codigo,4);
+    cout<<"Ingrese CODIGO 2: ";
+    cin.getline(reg._codigo2,3);
+    cout<<"Ingrese NOMBRE: ";
+    cin.getline(reg._nombre,45);
+    cout<<"Ingrese CONTINENTE: ";
+    cin.getline(reg._continente,20);
+    cout<<"Ingrese SUPERFICIE: ";
+    cin>>reg._superficie;
+    cout<<"Ingrese POBLACION: ";
+    cin>>reg._poblacion;
+    cout<<"Ingrese INDEPENDENCIA: ";
+    cin>>reg._independencia;
+    cout<<"Ingrese Expectativa de Vida: ";
+    cin>>reg._expectativaDeVida;
+    cout<<"Ingrese CAPITAL: ";
+    cin>>reg._capital;
+    cout<<""<<endl;
+    cout<<"Pais Cargado:"<<endl;
+    cout<<"Nombre: "<<reg._nombre<<endl;
+    cout<<"Capital: "<<reg._capital<<endl;
+    cout<<"Continente: "<<reg._continente<<endl;
+    cout<<"Codigo: "<<reg._codigo<<endl;
+    cout<<"Codigo 2: "<<reg._codigo2<<endl;
+    cout<<"Superficie: "<<reg._superficie<<endl;
+    cout<<"Poblacion: "<<reg._poblacion<<endl;
+    cout<<"Independencia: "<<reg._independencia<<endl;
+    cout<<"Expectativa de Vida: "<<reg._expectativaDeVida<<endl;
+    cout<<""<<endl;
+    cout<<"- - - - - - - - "<<endl;
+
+    grabarPais(reg);
+};
+
+// Grabo en Archivo.
+void grabarPais(Pais reg){
+    // Abrir archivo
+    FILE *archivo;
+    archivo = fopen(PRUEBA_PAISES,"ab");
+    // Grabar archivo
+    fwrite(&reg,sizeof(Pais),1,archivo);
+    // Cerrar archivo
+    fclose(archivo);
+}
+
+// 3) --------------------------------------------------------------
+
+// Leo el Archivo.
+void leerPaises(){
+    // Abrir el archivo
+    int x=0;
+    FILE *archivo;
+    Pais pais;
+    archivo = fopen(PRUEBA_PAISES,"rb");
+    // Leer archivo
+    while(fread(&pais,sizeof(Pais),1,archivo)==1){
+        mostrarPais(pais);
+    }
+    fclose(archivo);
+};
+
+// Recibo el Registro leido del archivo y lo muestro. Registro x Registro, sin uso de Vectores.
+void mostrarPais(Pais reg){
+    cout<<" "<<endl;
+    cout<<"PAIS"<<endl;
+    cout<<"Nombre: "<<reg._nombre<<"\tCodigo: "<<reg._codigo<<" - Codigo2: "<<reg._codigo2<<endl;
+    cout<<"Capital: "<<reg._capital<<endl;
+    cout<<"Continente: "<<reg._continente<<endl;
+    cout<<"Superficie: "<<reg._superficie<<endl;
+    cout<<"Poblacion: "<<reg._poblacion<<endl;
+    cout<<"Independencia: "<<reg._independencia<<endl;
+    cout<<"Expectativa de Vida: "<<reg._expectativaDeVida<<endl;
+    cout<<" "<<endl;
 };
 
 

@@ -13,15 +13,27 @@
 
 int main()
 {
+
+
     //SetConsoleTitle("TRABAJO PRACTICO GRUPAL");
     //MenuPrincipal();
-    char palabra[4];
-    cin.getline(palabra,4);
 
-    bool result = existeRegistro(palabra);
+
+    // Llamada de prueba a FUNCION 1
+
+    //cargarPais();
+    /*
+    char codigo[4];
+    cin.getline(codigo,4);
+    bool result = existeRegistro(codigo);
     if(result==true){
         cout<<"EXISTE"<<endl;
     } else {
         cout<<"NO EXISTE"<<endl;
     }
+*/
+    // Llamada de prueba a FUNCION 2
+
+    leerPaises();
+
 }
