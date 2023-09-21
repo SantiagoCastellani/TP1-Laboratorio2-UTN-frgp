@@ -226,7 +226,8 @@ void menuReportes(){
         switch(opc){
         case 1:
             clrscr();
-            //totalesxContinente();
+            totalesxContinente();
+            system("pause");
             break;
         case 2:
             clrscr();

@@ -37,7 +37,7 @@ void listarPaises_Superficies();    // Leer y guardar los Registros en un Vector
 void totalesxContinente();          // Leo el archivo Paises. Dentro de la función se debe pedir al Usuario que ingrese el nombre del Pais.
                                     // Guardo en un vector los registros.
                                     // Calculo los totales y promedios. Muestro.
-
+int menuContinentes();
 // 7) --------------------------------------------------------------
 void modificarPais();               // Pido el codigo de pais a modificar.
                                     // Verificar que exista.
@@ -183,7 +183,7 @@ void mostrarPais(Pais reg){/*
     cout<<"Poblacion: "<<reg._poblacion<<endl;
     cout<<"Independencia: "<<reg._independencia<<endl;
     cout<<"Expectativa de Vida: "<<reg._expectativaDeVida<<endl;*/
-    cout<<"\t"<<reg._nombre<<" - ("<<reg._codigo<<")"<<endl;
+    cout<<"\t"<<reg._nombre<<" - ("<<reg._codigo<<")"<<reg._continente<<endl;
 };
 
 
@@ -295,8 +295,112 @@ void listarPaises_Superficies(){
 // Guardo en un vector los registros.
 // Calculo los totales y promedios. Muestro.
 void totalesxContinente(){
+    char continente[20];
+    cout<<" "<<endl;
+    cout<<"\tESTADISTICAS por CONTINENTE"<<endl;
+    cout<<" "<<endl;
+    int numContinente = menuContinentes();
+    switch(numContinente){
+    case 1:
+        strcpy(continente,"America del Sur");
+        break;
+    case 2:
+        strcpy(continente,"America del Norte");
+        break;
+    case 3:
+        strcpy(continente,"Africa");
+        break;
+    case 4:
+        strcpy(continente,"Asia");
+        break;
+    case 5:
+        strcpy(continente,"Europa");
+        break;
+    case 6:
+        strcpy(continente,"Oceania");
+        break;
+    case 7:
+        strcpy(continente,"Antarctica");
+        break;
+    case 8:
+        strcpy(continente,"Continente misterioso");
+        break;
+    default:
+        cout<<" "<<endl;
+        cout<<" "<<endl;
+        cout<<"\tPareciera que no ha elegido ninguna opcion valida"<<endl;
+        break;
+    }
+    FILE *archivo;
+    Pais pais;
+    archivo = fopen(ARCHIVO_PAISES,"rb");
+    int poblacionTotal=0;
+    float superficieTotal=0;
+    float densidad=0;
+    int cantPaises=0;
+    cout<<" "<<endl;
+    while(fread(&pais,sizeof(Pais),1,archivo)==1){
+        if(strcmp(continente,pais._continente)==0){
+            poblacionTotal=poblacionTotal + pais._poblacion;
+            superficieTotal=superficieTotal + pais._superficie;
+            cantPaises++;
+        }
+    }
+    if(superficieTotal!=0){
+        densidad=poblacionTotal/superficieTotal;
+    }
+    if(cantPaises!=0){
+        cout<<" "<<endl;
+        cout<<" Usted ha elegido: "<<endl;
+        cout<<" "<<endl;
+        cout<<" "<<endl;
+        cout<<"\t"<<continente<<endl;
+        cout<<" "<<endl;
+        cout<<" "<<endl;
+        cout<<"\tCantidad de Paises: "<<cantPaises<<endl;
+        cout<<" "<<endl;
+        cout<<"\tPoblacion: "<<poblacionTotal<<endl;
+        cout<<" "<<endl;
+        cout<<"\tSuperficie Total: "<<superficieTotal<<endl;
+        cout<<" "<<endl;
+        cout<<"\tDensidad Poblacional: "<<densidad<<endl;
+        cout<<" "<<endl;
+    } else {
+        cout<<" "<<endl;
+        cout<<"\tEl continente pareciera no tener ningun pais"<<endl;
+        cout<<" "<<endl;
+    }
+
+    fclose(archivo);
 
 };
+
+int menuContinentes(){
+    int continente;
+    cout<<"\tQue continente desea explorar?"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t1 - America del Sur"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t2 - America del Norte"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t3 - Africa"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t4 - Asia"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t5 - Europa"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t6 - Oceania"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t7 - Antarctica"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t8 - Continente misterioso"<<endl;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<"\tElija una opcion: ";
+    cin>>continente;
+    clrscr();
+    return continente;
+}
 
 
 
