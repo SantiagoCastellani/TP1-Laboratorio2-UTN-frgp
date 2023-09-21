@@ -120,7 +120,7 @@ void menuPaises(){
             break;
         case 4:
             clrscr();
-            //modificarPais();
+            modificarPais();
             break;
         case 0:
             cout << endl << endl;
@@ -231,11 +231,11 @@ void menuReportes(){
             break;
         case 2:
             clrscr();
-            //totalesPais_Poblacion();
+            totalesPais_Poblacion();
             break;
         case 3:
             clrscr();
-            //buscarMayorPoblacion();
+            buscarMayorPoblacion();
             break;
         case 0:
             cout << endl << endl;

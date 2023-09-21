@@ -37,13 +37,14 @@ void listarPaises_Superficies();    // Leer y guardar los Registros en un Vector
 void totalesxContinente();          // Leo el archivo Paises. Dentro de la función se debe pedir al Usuario que ingrese el nombre del Pais.
                                     // Guardo en un vector los registros.
                                     // Calculo los totales y promedios. Muestro.
-int menuContinentes();
+int menuContinentes();              // Agrego un menu para facilitar la eleccion del continente
 // 7) --------------------------------------------------------------
 void modificarPais();               // Pido el codigo de pais a modificar.
                                     // Verificar que exista.
                                     // Buscar registro (usar función respectiva).
                                     // Ingresar los nuevos valores y reemplazar.
 void grabarModificado(Pais reg);    // Guardar Pais Modificado.
+Pais buscarXCodigo(char *codigo);
 
 // 8) --------------------------------------------------------------
 void modificarCiudad();             // Pido el codigo de la ciudad a modificar.
@@ -214,7 +215,6 @@ void mostrarCiudadesxPais(){
 // Recibe el codigo del Pais y busca su registro.
 struct Pais obtenerRegistroPais(char *codigo){
    // Abrir el archivo
-    int x=0;
     FILE *archivo;
     Pais pais;
     archivo = fopen(ARCHIVO_PAISES,"rb");
@@ -402,6 +402,129 @@ int menuContinentes(){
     return continente;
 }
 
+// 7) --------------------------------------------------------------
+// Pido el codigo de pais a modificar.
+// Verificar que exista.
+// Buscar registro (usar función respectiva).
+// Ingresar los nuevos valores y reemplazar.
+void modificarPais(){
+    cin.ignore();
+    char codigo[4];
+    cout<<" "<<endl;
+    cout<<"\tBuscar Pais a Modificar"<<endl;
+    cout<<" "<<endl;
+    cout<<"\tIngrese el Codigo de Pais: ";
+    cin.getline(codigo,4);
+    bool existe=false;
+    existe=existeRegistro(codigo);
+    if(existe){
+        cout<<" "<<endl;
+        cout<<"\tPais Encontrado:"<<endl;
+        Pais reg;
+        reg=buscarXCodigo(codigo);
+        mostrarPaisDetalle(reg);
+    } else {
+        cout<<" "<<endl;
+        cout<<"\tCodigo incorrecto:"<<endl;
+        cout<<" "<<endl;
+    }
+
+    system("pause");
+};
+// Guardar Pais Modificado.
+void grabarModificado(Pais reg);
+
+// Buscar pais x Codigo
+struct Pais buscarXCodigo(char *codigo){
+    FILE *archivo;
+    Pais pais;
+    Pais paisX;
+    archivo = fopen(ARCHIVO_PAISES,"rb");
+    // Leer archivo
+    cout<<" "<<endl;
+    while(fread(&pais,sizeof(Pais),1,archivo)==1){
+        if(strcmp(codigo,pais._codigo)==0){
+            paisX=pais;
+        }
+    }
+    fclose(archivo);
+    return paisX;
+}
+
+// 9) --------------------------------------------------------------
+void totalesPais_Poblacion(){
+    FILE *archivo;
+    Pais pais;
+    long poblacionMundial=0;
+    int cant=0;
+    archivo = fopen(ARCHIVO_PAISES,"rb");
+    // Leer archivo
+    while(fread(&pais,sizeof(Pais),1,archivo)==1){
+        poblacionMundial=poblacionMundial+pais._poblacion;
+        cant++;
+    }
+    fclose(archivo);
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<"\tESTADISTICA MUNDIAL"<<endl;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<"\tPOBLACION MUNDIAL: "<<poblacionMundial<<endl;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<"\tCantidad de Paises: "<<cant<<endl;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    system("pause");
+};
+
+// 10) --------------------------------------------------------------
+void buscarMayorPoblacion(){
+    FILE *archivo;
+    Ciudad ciudad;
+    Ciudad superCiudad;
+    long mayorPoblacion=0;
+    int idCiudad;
+    // Abrir archivo
+    archivo = fopen(ARCHIVO_CIUDADES,"rb");
+    // Leer archivo
+    while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
+        if(ciudad._poblacion>mayorPoblacion){
+            mayorPoblacion=ciudad._poblacion;
+            superCiudad=ciudad;
+        }
+    }
+    Pais pais;
+    pais = buscarXCodigo(superCiudad._idpais);
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<"\tCIUDAD de MAYOR POBLACION"<<endl;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<"\tCiudad: "<<superCiudad._nombre<<endl;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<"\tPoblacion: "<<superCiudad._poblacion<<endl;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<"\tPais: "<<pais._nombre<<endl;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<"\tContinente: "<<pais._continente<<endl;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    fclose(archivo);
+    system("pause");
+};
+
+
+
+
+
+
+/// ADICIONALES IMPORTANTES
+int contarPaises();     // Contar Registros Archivo Paises
+int contarCiudades();   // Contar Registros Archivo Ciudades
 
 
 #endif // FUNCIONES_H_INCLUDED

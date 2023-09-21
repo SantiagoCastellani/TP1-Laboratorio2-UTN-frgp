@@ -45,7 +45,7 @@
 	"Menu.h"
 	"Funciones.h"
 
-1695263133 c:\users\santi\desktop\trabajo práctico colaborativo\menu.h
+1695270777 c:\users\santi\desktop\trabajo práctico colaborativo\menu.h
 	<windows.h>
 	<iostream>
 	"graficos.h"
@@ -54,7 +54,7 @@
 1694185589 c:\users\santi\desktop\trabajo práctico colaborativo\graficos.h
 	<iostream>
 
-1695265973 c:\users\santi\desktop\trabajo práctico colaborativo\funciones.h
+1695271107 c:\users\santi\desktop\trabajo práctico colaborativo\funciones.h
 	<cstdio>
 	<string.h>
 	"Structs.h"
