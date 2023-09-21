@@ -105,15 +105,18 @@ void menuPaises(){
         switch(opc){
         case 1:
             clrscr();
-            //cargarPais();
+            cin.ignore();
+            cargarPais();
             break;
         case 2:
             clrscr();
-            //leerPaises();
+            leerPaises();
+            system("pause");
             break;
         case 3:
             clrscr();
-            //listarPaises_Superficies();
+            listarPaises_Superficies();
+            system("pause");
             break;
         case 4:
             clrscr();
@@ -166,7 +169,9 @@ void menuCiudades(){
         switch(opc){
         case 1:
             clrscr();
-            //mostrarCiudadesxPais();
+            cin.ignore();
+            mostrarCiudadesxPais();
+            system("pause");
             break;
         case 2:
             clrscr();

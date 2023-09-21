@@ -19,8 +19,9 @@ struct Ciudad
 };
 
 /// ARCHIVOS
-const char *ARCHIVO_PAISES = "paises.dat";
-const char *ARCHIVO_CIUDADES = "ciudades.dat";
+//const char *ARCHIVO_PAISES = "paises.dat";
+//const char *ARCHIVO_CIUDADES = "ciudades.dat";
 
-// ARCHIVOS DE PRUEBA
-const char *PRUEBA_PAISES = "paisesdeprueba.dat";
+// ARCHIVOS DE TEST
+const char *ARCHIVO_PAISES = "paisesTest.dat";
+const char *ARCHIVO_CIUDADES = "ciudadesTest.dat";

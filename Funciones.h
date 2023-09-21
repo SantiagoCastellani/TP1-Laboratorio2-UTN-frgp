@@ -17,7 +17,7 @@ bool existeRegistro(char *codigo);
 // 2) --------------------------------------------------------------
 void cargarPais();          // Cargo un registro de Struct.
 void grabarPais(Pais reg);  // Grabo en Archivo.
-
+void mostrarPaisDetalle(Pais reg);
 // 3) --------------------------------------------------------------
 void leerPaises();          // Leo el Archivo.
 void mostrarPais(Pais reg); // Recibo el Registro leido del archivo y lo muestro. Registro x Registro, sin uso de Vectores.
@@ -75,8 +75,7 @@ bool existeRegistro(char codigo[]){
     bool existe = false;
     //Abrir Archivo
     FILE *archivo;
-    //archivo = fopen(ARCHIVO_PAISES,"rb");
-    archivo = fopen("paisesdeprueba.dat","rb");
+    archivo = fopen(ARCHIVO_PAISES,"rb");
     // Obteniendo cantidad de registros del archivo
     fseek (archivo, 0, SEEK_END);
     tam = (ftell(archivo))/sizeof(Pais);
@@ -98,42 +97,35 @@ bool existeRegistro(char codigo[]){
 
 // Cargo un registro de Struct.
 void cargarPais(){
-    cout<<"- - - - - - - - "<<endl;
     cout<<""<<endl;
-    cout<<"AGREGAR PAIS"<<endl;
+    cout<<"- - - - - - - - - - - - - - - - -"<<endl;
     cout<<""<<endl;
-    cout<<"Ingrese CODIGO: ";
-    cin.getline(reg._codigo,4);
-    cout<<"Ingrese CODIGO 2: ";
-    cin.getline(reg._codigo2,3);
-    cout<<"Ingrese NOMBRE: ";
+    cout<<"\t***AGREGAR PAIS***"<<endl;
+    cout<<""<<endl;
+    cout<<" Ingrese NOMBRE: ";
     cin.getline(reg._nombre,45);
-    cout<<"Ingrese CONTINENTE: ";
+    cout<<" Ingrese CODIGO: ";
+    cin.getline(reg._codigo,4);
+    cout<<" Ingrese CODIGO 2: ";
+    cin.getline(reg._codigo2,3);
+    cout<<" Ingrese CONTINENTE: ";
     cin.getline(reg._continente,20);
-    cout<<"Ingrese SUPERFICIE: ";
+    cout<<" Ingrese SUPERFICIE: ";
     cin>>reg._superficie;
-    cout<<"Ingrese POBLACION: ";
+    cout<<" Ingrese POBLACION: ";
     cin>>reg._poblacion;
-    cout<<"Ingrese INDEPENDENCIA: ";
+    cout<<" Ingrese INDEPENDENCIA: ";
     cin>>reg._independencia;
-    cout<<"Ingrese Expectativa de Vida: ";
+    cout<<" Ingrese Expectativa de Vida: ";
     cin>>reg._expectativaDeVida;
-    cout<<"Ingrese CAPITAL: ";
+    cout<<" Ingrese CODIGO de CAPITAL: ";
     cin>>reg._capital;
     cout<<""<<endl;
-    cout<<"Pais Cargado:"<<endl;
-    cout<<"Nombre: "<<reg._nombre<<endl;
-    cout<<"Capital: "<<reg._capital<<endl;
-    cout<<"Continente: "<<reg._continente<<endl;
-    cout<<"Codigo: "<<reg._codigo<<endl;
-    cout<<"Codigo 2: "<<reg._codigo2<<endl;
-    cout<<"Superficie: "<<reg._superficie<<endl;
-    cout<<"Poblacion: "<<reg._poblacion<<endl;
-    cout<<"Independencia: "<<reg._independencia<<endl;
-    cout<<"Expectativa de Vida: "<<reg._expectativaDeVida<<endl;
+    cout<<"\tPais Cargado:"<<endl;
+    mostrarPaisDetalle(reg);
     cout<<""<<endl;
     cout<<"- - - - - - - - "<<endl;
-
+    system("pause");
     grabarPais(reg);
 };
 
@@ -141,12 +133,26 @@ void cargarPais(){
 void grabarPais(Pais reg){
     // Abrir archivo
     FILE *archivo;
-    archivo = fopen(PRUEBA_PAISES,"ab");
+    archivo = fopen(ARCHIVO_PAISES,"ab");
     // Grabar archivo
     fwrite(&reg,sizeof(Pais),1,archivo);
     // Cerrar archivo
     fclose(archivo);
-}
+};
+
+void mostrarPaisDetalle(Pais reg){
+    cout<<" Nombre: "<<reg._nombre<<endl;
+    cout<<" Capital: "<<reg._capital<<endl;
+    cout<<" Continente: "<<reg._continente<<endl;
+    cout<<" Codigo: "<<reg._codigo<<endl;
+    cout<<" Codigo 2: "<<reg._codigo2<<endl;
+    cout<<" Superficie: "<<reg._superficie<<endl;
+    cout<<" Poblacion: "<<reg._poblacion<<endl;
+    cout<<" Independencia: "<<reg._independencia<<endl;
+    cout<<" Expectativa de Vida: "<<reg._expectativaDeVida<<endl;
+};
+
+
 
 // 3) --------------------------------------------------------------
 
@@ -155,17 +161,20 @@ void leerPaises(){
     // Abrir el archivo
     FILE *archivo;
     Pais pais;
-    archivo = fopen(PRUEBA_PAISES,"rb");
+    archivo = fopen(ARCHIVO_PAISES,"rb");
     // Leer archivo
+    cout<<" "<<endl;
+    cout<<"\tLISTA de PAISES y su Codigo"<<endl;
+    cout<<" "<<endl;
     while(fread(&pais,sizeof(Pais),1,archivo)==1){
         mostrarPais(pais);
     }
+    cout<<" "<<endl;
     fclose(archivo);
 };
 
 // Recibo el Registro leido del archivo y lo muestro. Registro x Registro, sin uso de Vectores.
-void mostrarPais(Pais reg){
-    cout<<" "<<endl;
+void mostrarPais(Pais reg){/*
     cout<<"PAIS"<<endl;
     cout<<"Nombre: "<<reg._nombre<<"\tCodigo: "<<reg._codigo<<" - Codigo2: "<<reg._codigo2<<endl;
     cout<<"Capital: "<<reg._capital<<endl;
@@ -173,8 +182,8 @@ void mostrarPais(Pais reg){
     cout<<"Superficie: "<<reg._superficie<<endl;
     cout<<"Poblacion: "<<reg._poblacion<<endl;
     cout<<"Independencia: "<<reg._independencia<<endl;
-    cout<<"Expectativa de Vida: "<<reg._expectativaDeVida<<endl;
-    cout<<" "<<endl;
+    cout<<"Expectativa de Vida: "<<reg._expectativaDeVida<<endl;*/
+    cout<<"\t"<<reg._nombre<<" - ("<<reg._codigo<<")"<<endl;
 };
 
 
@@ -183,17 +192,22 @@ void mostrarPais(Pais reg){
 // Leo el archivo Ciudades. Dentro de la función se debe pedir al Usuario que ingrese el nombre del Pais.
 void mostrarCiudadesxPais(){
     char codigo[4];
+    cout<<" "<<endl;
+    cout<<" Ingrese el codigo de pais en mayusculas: ";
     cin.getline(codigo,4);
+    clrscr();
     Pais pais = obtenerRegistroPais(codigo);
     if(strcmp(codigo,pais._codigo)==0){
         int idCapital = pais._capital;
         cout<<" "<<endl;
-        cout<<"Ciudades de "<<pais._nombre<<endl;
+        cout<<"\tCiudades de "<<pais._nombre<<endl;
         cout<<" "<<endl;
         mostrarCiudadesxPaisYCapital(codigo,idCapital);
         cout<<" "<<endl;
     } else {
-        cout<<"El nombre de pais es incorrecto"<<endl;
+        cout<<" "<<endl;
+        cout<<"\tCodigo de Pais INCORRECTO"<<endl;
+        cout<<" "<<endl;
     }
 };
 
@@ -203,7 +217,7 @@ struct Pais obtenerRegistroPais(char *codigo){
     int x=0;
     FILE *archivo;
     Pais pais;
-    archivo = fopen(PRUEBA_PAISES,"rb");
+    archivo = fopen(ARCHIVO_PAISES,"rb");
     // Leer archivo
     if(existeRegistro(codigo)){
         while(fread(&pais,sizeof(Pais),1,archivo)==1){
@@ -225,14 +239,14 @@ void mostrarCiudadesxPaisYCapital(char *codigo,int idCapital){
     // Leer archivo
     while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
         if((strcmp(codigo,ciudad._idpais))==0){
-            cout<<ciudad._nombre<<" - Poblacion: "<<ciudad._poblacion<<endl;
+            cout<<"\t"<<ciudad._nombre<<" - Poblacion: "<<ciudad._poblacion<<endl;
         }
         if(idCapital==ciudad._ID){
             ciudadCapital=ciudad;
         }
     }
     cout<<""<<endl;
-    cout<<"La capital es :"<<ciudadCapital._nombre<<endl;
+    cout<<"\tLa capital es :"<<ciudadCapital._nombre<<endl;
     // Cerrar archivo
     fclose(archivo);
 }
@@ -260,19 +274,29 @@ void listarPaises_Superficies(){
         superficieTotal=superficieTotal+vSuperficie[x];
     }
     cout<<" "<<endl;
-    cout<<"PAISES / SUPERFICIES"<<endl;
+    cout<<"\tPAISES / SUPERFICIES"<<endl;
     cout<<" "<<endl;
-    cout<<"Superficie Mundial Total: "<<superficieTotal<<endl;
+    cout<<"\tSuperficie Mundial Total: "<<superficieTotal<<endl;
     cout<<" "<<endl;
     for(int x=0;x<tam;x++){
+        long double porcentaje = (long double) (vPaises[x]._superficie)/superficieTotal;
+    /*
         cout<<"Pais: "<<vPaises[x]._nombre<<endl;
-        cout<<"Superficie: "<<vPaises[x]._superficie<<" | Porcentaje: "<<((vPaises[x]._superficie)/superficieTotal)<<"%"<<endl;
-        cout<<" "<<endl;
+        cout<<"Superficie: "<<vPaises[x]._superficie<<" | Porcentaje: "<<porcentaje<<"%"<<endl;
+        cout<<" "<<endl;*/
+        cout<<"\t"<<vPaises[x]._nombre<<" | Sup: "<<vPaises[x]._superficie<<" | "<<porcentaje<<"%"<<endl;
     }
     cout<<" "<<endl;
     fclose(archivo);
 };
 
+// 6) --------------------------------------------------------------
+// Leo el archivo Paises. Dentro de la función se debe pedir al Usuario que ingrese el nombre del Pais.
+// Guardo en un vector los registros.
+// Calculo los totales y promedios. Muestro.
+void totalesxContinente(){
+
+};
 
 
 

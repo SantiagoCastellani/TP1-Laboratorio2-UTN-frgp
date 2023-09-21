@@ -14,10 +14,10 @@
 int main()
 {
 
-    //SetConsoleTitle("TRABAJO PRACTICO GRUPAL");
-    //MenuPrincipal();
+    SetConsoleTitle("TRABAJO PRACTICO GRUPAL");
+    MenuPrincipal();
 
-
+    //cargarPais();
     // Llamada de prueba a FUNCION 1
 
     //cargarPais();
@@ -37,6 +37,6 @@ int main()
 
     //mostrarCiudadesxPais();
 
-    listarPaises_Superficies();
+    //listarPaises_Superficies();
 
 }
