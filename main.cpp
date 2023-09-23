@@ -16,27 +16,9 @@ int main()
 
     SetConsoleTitle("TRABAJO PRACTICO GRUPAL");
     MenuPrincipal();
-
-    //cargarPais();
-    // Llamada de prueba a FUNCION 1
-
-    //cargarPais();
-    /*
-    char codigo[4];
-    cin.getline(codigo,4);
-    bool result = existeRegistro(codigo);
-    if(result==true){
-        cout<<"EXISTE"<<endl;
-    } else {
-        cout<<"NO EXISTE"<<endl;
-    }
-*/
-    // Llamada de prueba a FUNCION 2
-
-    //leerPaises();
-
-    //mostrarCiudadesxPais();
-
-    //listarPaises_Superficies();
-
+/*
+    int cant = contarCiudades();
+    int pai = contarPaises();
+    cout<<cant<<endl;
+    cout<<pai<<endl;*/
 }

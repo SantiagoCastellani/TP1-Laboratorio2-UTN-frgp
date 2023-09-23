@@ -142,15 +142,15 @@ void grabarPais(Pais reg){
 };
 
 void mostrarPaisDetalle(Pais reg){
-    cout<<" Nombre: "<<reg._nombre<<endl;
-    cout<<" Capital: "<<reg._capital<<endl;
-    cout<<" Continente: "<<reg._continente<<endl;
-    cout<<" Codigo: "<<reg._codigo<<endl;
-    cout<<" Codigo 2: "<<reg._codigo2<<endl;
-    cout<<" Superficie: "<<reg._superficie<<endl;
-    cout<<" Poblacion: "<<reg._poblacion<<endl;
-    cout<<" Independencia: "<<reg._independencia<<endl;
-    cout<<" Expectativa de Vida: "<<reg._expectativaDeVida<<endl;
+    cout<<"\tNombre: "<<reg._nombre<<endl;
+    cout<<"\tCapital: "<<reg._capital<<endl;
+    cout<<"\tContinente: "<<reg._continente<<endl;
+    cout<<"\tCodigo: "<<reg._codigo<<endl;
+    cout<<"\tCodigo 2: "<<reg._codigo2<<endl;
+    cout<<"\tSuperficie: "<<reg._superficie<<endl;
+    cout<<"\tPoblacion: "<<reg._poblacion<<endl;
+    cout<<"\tIndependencia: "<<reg._independencia<<endl;
+    cout<<"\tExpectativa de Vida: "<<reg._expectativaDeVida<<endl;
 };
 
 
@@ -418,11 +418,29 @@ void modificarPais(){
     bool existe=false;
     existe=existeRegistro(codigo);
     if(existe){
+        int opcion=0;
         cout<<" "<<endl;
         cout<<"\tPais Encontrado:"<<endl;
         Pais reg;
         reg=buscarXCodigo(codigo);
         mostrarPaisDetalle(reg);
+        cout<<" "<<endl;
+        cout<<"\tDesea modificar los datos del pais? (SI = 1 | NO = 9 ): ";
+        cin>>opcion;
+        if(opcion==1){
+            clrscr();
+            cout<<" "<<endl;
+            cout<<"MODIFICACION de PAIS"<<endl;
+            cout<<" "<<endl;
+            cout<<" "<<endl;
+            cout<<"Pais a modificar: "<<reg._nombre<<endl;
+            cout<<" "<<endl;
+            grabarModificado(reg);
+        } else {
+            cout<<" "<<endl;
+            cout<<"\Volver al menu."<<endl;
+            cout<<" "<<endl;
+        }
     } else {
         cout<<" "<<endl;
         cout<<"\tCodigo incorrecto:"<<endl;
@@ -432,7 +450,51 @@ void modificarPais(){
     system("pause");
 };
 // Guardar Pais Modificado.
-void grabarModificado(Pais reg);
+void grabarModificado(Pais reg){
+    // Encontrar registro
+    int nroRegistro=0;
+    int pos=-1;
+    FILE *archivo;
+    int res=-1;
+    Pais pais;
+    archivo = fopen(ARCHIVO_PAISES,"rb+");
+    // Leer archivo
+    while(fread(&pais,sizeof(Pais),1,archivo)==1){
+        if(strcmp(reg._codigo,pais._codigo)==0){
+            cin.ignore();
+            pos=nroRegistro;
+            fseek(archivo,ftell(archivo)-sizeof(Pais),0);
+            cout<<"\tIngrese los datos del pais a modificar"<<endl;
+            cout<<" "<<endl;
+            cout<<" Ingrese NOMBRE: ";
+            cin.getline(pais._nombre,45);
+            cout<<" Ingrese CONTINENTE: ";
+            cin.getline(pais._continente,20);
+            cout<<" Ingrese POBLACION: ";
+            cin>>pais._poblacion;
+            cout<<" Ingrese CODIGO de CAPITAL: ";
+            cin>>pais._capital;
+            cout<<" Ingrese SUPERFICIE: ";
+            cin>>pais._superficie;
+            cout<<" Ingrese INDEPENDENCIA: ";
+            cin>>pais._independencia;
+            cout<<" Ingrese Expectativa de Vida: ";
+            cin>>pais._expectativaDeVida;
+            res = fwrite(&pais,sizeof(Pais),1,archivo);
+            fclose(archivo);
+        }
+    }
+    fclose(archivo);
+    if(res==1){
+        cout<<" "<<endl;
+        cout<<"\tOK: El pais se modifico satisfactoriamente"<<endl;
+        cout<<" "<<endl;
+    } else {
+        cout<<" "<<endl;
+        cout<<"\tPor algun motivo no pudo modificarse los datos."<<endl;
+        cout<<" "<<endl;
+    }
+};
 
 // Buscar pais x Codigo
 struct Pais buscarXCodigo(char *codigo){
@@ -518,13 +580,36 @@ void buscarMayorPoblacion(){
 };
 
 
-
-
-
-
 /// ADICIONALES IMPORTANTES
-int contarPaises();     // Contar Registros Archivo Paises
-int contarCiudades();   // Contar Registros Archivo Ciudades
+// Contar Registros Archivo Paises
+int contarPaises(){
+    int cant=0; // Cantidad de Registros del archivo
+    //Abrir Archivo
+    FILE *archivo;
+    archivo = fopen(ARCHIVO_PAISES,"rb");
+    // Obteniendo cantidad de registros del archivo
+    fseek (archivo, 0, SEEK_END);
+    cant = (ftell(archivo))/sizeof(Pais);
+    fseek (archivo, 0,0);
+    // Cerrar Archivo
+    fclose(archivo);
+    return cant;
+};
+
+// Contar Registros Archivo Ciudades
+int contarCiudades(){
+    int cant=0; // Cantidad de Registros del archivo
+    //Abrir Archivo
+    FILE *archivo;
+    archivo = fopen(ARCHIVO_CIUDADES,"rb");
+    // Obteniendo cantidad de registros del archivo
+    fseek (archivo, 0, SEEK_END);
+    cant = (ftell(archivo))/sizeof(Ciudad);
+    fseek (archivo, 0,0);
+    // Cerrar Archivo
+    fclose(archivo);
+    return cant;
+};
 
 
 #endif // FUNCIONES_H_INCLUDED

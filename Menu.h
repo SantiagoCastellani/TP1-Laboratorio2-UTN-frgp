@@ -32,9 +32,11 @@ int MenuPrincipal(){
         cout << "   2 - CIUDADES" << endl;
         gotoxy(13,7);
         cout << "   3 - REPORTES" << endl;
-        gotoxy(3,8);
+        gotoxy(13,8);
+        cout << "   4 - CONFIGURACION" << endl;
+        gotoxy(3,9);
         cout << "---------------------------------------" << endl;
-        gotoxy(13,9);
+        gotoxy(13,10);
         cout << "   0 - SALIR" << endl;
         cout << endl;
         gotoxy(3,12);
