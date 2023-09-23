@@ -11,20 +11,22 @@
 Pais reg;
 
 /// --------------------------- PROTOTIPOS DE LAS FUNCIONES ---------------------------
+
 // 1) --------------------------------------------------------------
 bool existeRegistro(char *codigo);
 
 // 2) --------------------------------------------------------------
 void cargarPais();          // Cargo un registro de Struct.
 void grabarPais(Pais reg);  // Grabo en Archivo.
-void mostrarPaisDetalle(Pais reg);
+void mostrarPaisDetalle(Pais reg);  // Muestra Toda la Informacion de un Pais
+
 // 3) --------------------------------------------------------------
 void leerPaises();          // Leo el Archivo.
 void mostrarPais(Pais reg); // Recibo el Registro leido del archivo y lo muestro. Registro x Registro, sin uso de Vectores.
 
 // 4) --------------------------------------------------------------
 void mostrarCiudadesxPais();                  // Leo el archivo Ciudades. Dentro de la función se debe pedir al Usuario que ingrese el nombre del Pais.
-struct Pais obtenerRegistroPais(char *pais);  // Recibe el nombre del Pais y busca su registro.
+struct Pais obtenerRegistroPais(char *pais);  // Recibe el codigo del Pais y busca su registro.
                                               // Revisar la opción de pedir primero el ingreso para obtener el Registro y luego leer el archivo Ciudades.
 void mostrarCiudadesxPaisYCapital(char *codigo,int idCapital);
 
@@ -38,51 +40,52 @@ void totalesxContinente();          // Leo el archivo Paises. Dentro de la funci
                                     // Guardo en un vector los registros.
                                     // Calculo los totales y promedios. Muestro.
 int menuContinentes();              // Agrego un menu para facilitar la eleccion del continente
+
 // 7) --------------------------------------------------------------
 void modificarPais();               // Pido el codigo de pais a modificar.
                                     // Verificar que exista.
                                     // Buscar registro (usar función respectiva).
                                     // Ingresar los nuevos valores y reemplazar.
 void grabarModificado(Pais reg);    // Guardar Pais Modificado.
-Pais buscarXCodigo(char *codigo);
+Pais buscarXCodigo(char *codigo);   // Devuelve un Pais sugun su codigo
 
 // 8) --------------------------------------------------------------
 void modificarCiudad();             // Pido el codigo de la ciudad a modificar.
 bool existeRegistro(int id);        // Verifico si existe Registro. (SOBRECARGA DE FUNCIONES)
                                     // Ingreso codigo pais y verifico si existe
 void grabarModificado(Ciudad reg);  // Guardar Ciudad Modificada. (SOBRECARGA DE FUNCIONES)
-void mostrarCiudad(int id);
-struct Ciudad ciudadById(int id);
+void mostrarCiudad(int id);         // Muestra una Ciudad segun su Id
+struct Ciudad ciudadById(int id);   // Devuelve una Ciudad segun su Id
+
 // 9) --------------------------------------------------------------
-void totalesPais_Poblacion();
+void totalesPais_Poblacion();       // Muestra la cantidad de Paises y la poblacion mundial
 
 // 10) --------------------------------------------------------------
-void buscarMayorPoblacion();
+void buscarMayorPoblacion();        // Busca la Ciudad de mapoblación
 
-    /// ADICIONALES IMPORTANTES
-int contarPaises();     // Contar Registros Archivo Paises
-int contarCiudades();   // Contar Registros Archivo Ciudades
+/// ADICIONALES IMPORTANTES
+int contarPaises();     // Cuenta el Nro de Registros de Pais
+int contarCiudades();   // Cuenta el Nro de Registros de Ciudad
 
-    /// PUNTOS 11 y 12 (OPCIONALES)
-        /// COLOCAR AQUÍ LOS PROTOTIPOS DE LAS FUNCIONES
+/// PUNTOS 11 y 12 (OPCIONALES)
+/// COLOCAR AQUÍ LOS PROTOTIPOS DE LAS FUNCIONES
+
 
 
 /// --------------------------- DESARROLLO DE LAS FUNCIONES ---------------------------
 
 // 1) --------------------------------------------------------------
 
+// Funcion: EXISTE PAIS ? (By Codigo)
 // Verifico si existe Registro.
 bool existeRegistro(char codigo[]){
-    int tam=0; // Cantidad de Registros del archivo
+    int tam=0;
     bool existe = false;
-    //Abrir Archivo
     FILE *archivo;
     archivo = fopen(ARCHIVO_PAISES,"rb");
-    // Obteniendo cantidad de registros del archivo
     fseek (archivo, 0, SEEK_END);
     tam = (ftell(archivo))/sizeof(Pais);
     fseek (archivo, 0,0);
-    // Leer Archivo
     Pais vPaises[tam];
     fread(&vPaises,sizeof(Pais),tam,archivo);
     for(int x=0;x<tam;x++){
@@ -90,13 +93,13 @@ bool existeRegistro(char codigo[]){
             existe=true;
         }
     }
-    // Cerrar Archivo
     fclose(archivo);
     return existe;
 };
 
 // 2) --------------------------------------------------------------
 
+// Funcion: CARGAR PAIS
 // Cargo un registro de Struct.
 void cargarPais(){
     cout<<""<<endl;
@@ -131,17 +134,16 @@ void cargarPais(){
     grabarPais(reg);
 };
 
+// Funcion: GUARDAR REGISTRO de PAIS
 // Grabo en Archivo.
 void grabarPais(Pais reg){
-    // Abrir archivo
     FILE *archivo;
     archivo = fopen(ARCHIVO_PAISES,"ab");
-    // Grabar archivo
     fwrite(&reg,sizeof(Pais),1,archivo);
-    // Cerrar archivo
     fclose(archivo);
 };
 
+// Funcion: MOSTRAR detalle de PAIS (By Pais)
 void mostrarPaisDetalle(Pais reg){
     cout<<"\tNombre: "<<reg._nombre<<endl;
     cout<<"\tCapital: "<<reg._capital<<endl;
@@ -154,17 +156,14 @@ void mostrarPaisDetalle(Pais reg){
     cout<<"\tExpectativa de Vida: "<<reg._expectativaDeVida<<endl;
 };
 
-
-
 // 3) --------------------------------------------------------------
 
+// Funcion: LEER REGISTRO de PAISES
 // Leo el Archivo.
 void leerPaises(){
-    // Abrir el archivo
     FILE *archivo;
     Pais pais;
     archivo = fopen(ARCHIVO_PAISES,"rb");
-    // Leer archivo
     cout<<" "<<endl;
     cout<<"\tLISTA de PAISES y su Codigo"<<endl;
     cout<<" "<<endl;
@@ -175,6 +174,8 @@ void leerPaises(){
     fclose(archivo);
 };
 
+// Funcion: MOSTRAR PAIS (By Pais) (Muestra solo el nombre, el codigo y el continente)
+//(Mostrando toda la info, solo se veian los ultimos, por el tamaño de log que admite la consola)
 // Recibo el Registro leido del archivo y lo muestro. Registro x Registro, sin uso de Vectores.
 void mostrarPais(Pais reg){/*
     cout<<"PAIS"<<endl;
@@ -191,6 +192,7 @@ void mostrarPais(Pais reg){/*
 
 // 4) --------------------------------------------------------------
 
+// Funcion: MOSTRAR CIUDAD (Pide un  Codigo de Pais)
 // Leo el archivo Ciudades. Dentro de la función se debe pedir al Usuario que ingrese el nombre del Pais.
 void mostrarCiudadesxPais(){
     char codigo[4];
@@ -213,13 +215,12 @@ void mostrarCiudadesxPais(){
     }
 };
 
+// Funcion: PAIS (By Codigo)
 // Recibe el codigo del Pais y busca su registro.
 struct Pais obtenerRegistroPais(char *codigo){
-   // Abrir el archivo
     FILE *archivo;
     Pais pais;
     archivo = fopen(ARCHIVO_PAISES,"rb");
-    // Leer archivo
     if(existeRegistro(codigo)){
         while(fread(&pais,sizeof(Pais),1,archivo)==1){
             if((strcmp(codigo,pais._codigo))==0){
@@ -230,14 +231,12 @@ struct Pais obtenerRegistroPais(char *codigo){
     fclose(archivo);
 };
 
-// mUESTRA LAS CIUDADES Y LA CAPITAL DADO UN CODIGO DE PAIS
+// Funcion: MUESTRA LAS CIUDADES Y LA CAPITAL DADO UN CODIGO DE PAIS
 void mostrarCiudadesxPaisYCapital(char *codigo,int idCapital){
-    // Abrir archivo
     FILE *archivo;
     Ciudad ciudad;
     Ciudad ciudadCapital;
     archivo = fopen(ARCHIVO_CIUDADES,"rb");
-    // Leer archivo
     while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
         if((strcmp(codigo,ciudad._idpais))==0){
             cout<<"\t"<<ciudad._nombre<<" - Poblacion: "<<ciudad._poblacion<<endl;
@@ -248,7 +247,6 @@ void mostrarCiudadesxPaisYCapital(char *codigo,int idCapital){
     }
     cout<<""<<endl;
     cout<<"\tLa capital es :"<<ciudadCapital._nombre<<endl;
-    // Cerrar archivo
     fclose(archivo);
 }
 
@@ -257,8 +255,8 @@ void mostrarCiudadesxPaisYCapital(char *codigo,int idCapital){
 // Calcular el Total de Superficie Mundial.
 // Mostrar dentro de la función misma, NOMBRE - SUPERFICIE - PORCENTAJE %
 
+// Funcion: LISTAR PAISES, su superficie y la relacion con la superficie total
 void listarPaises_Superficies(){
-    // Abrir archivo
     FILE *archivo;
     archivo = fopen(ARCHIVO_PAISES,"rb");
     // Obteniendo cantidad de registros del archivo
@@ -284,7 +282,8 @@ void listarPaises_Superficies(){
     /*
         cout<<"Pais: "<<vPaises[x]._nombre<<endl;
         cout<<"Superficie: "<<vPaises[x]._superficie<<" | Porcentaje: "<<porcentaje<<"%"<<endl;
-        cout<<" "<<endl;*/
+        cout<<" "<<endl;
+    */
         cout<<"\t"<<vPaises[x]._nombre<<" | Sup: "<<vPaises[x]._superficie<<" | "<<porcentaje<<"%"<<endl;
     }
     cout<<" "<<endl;
@@ -295,6 +294,8 @@ void listarPaises_Superficies(){
 // Leo el archivo Paises. Dentro de la función se debe pedir al Usuario que ingrese el nombre del Pais.
 // Guardo en un vector los registros.
 // Calculo los totales y promedios. Muestro.
+
+// Funcion: ESTADISTICAS por CONTINENTE
 void totalesxContinente(){
     char continente[20];
     cout<<" "<<endl;
@@ -371,11 +372,10 @@ void totalesxContinente(){
         cout<<"\tEl continente pareciera no tener ningun pais"<<endl;
         cout<<" "<<endl;
     }
-
     fclose(archivo);
-
 };
 
+// Funcion: MENU de CONTINENTES
 int menuContinentes(){
     int continente;
     cout<<"\tQue continente desea explorar?"<<endl;
@@ -408,6 +408,8 @@ int menuContinentes(){
 // Verificar que exista.
 // Buscar registro (usar función respectiva).
 // Ingresar los nuevos valores y reemplazar.
+
+// Funcion: MODIFICAR PAIS (Verifica que el codigo exista)
 void modificarPais(){
     cin.ignore();
     char codigo[4];
@@ -447,23 +449,18 @@ void modificarPais(){
         cout<<"\tCodigo incorrecto:"<<endl;
         cout<<" "<<endl;
     }
-
     system("pause");
 };
-// Guardar Pais Modificado.
+
+// Funcion: GUARDAR PAIS MODIFICADO en el Registro.
 void grabarModificado(Pais reg){
-    // Encontrar registro
-    int nroRegistro=0;
-    int pos=-1;
     FILE *archivo;
     int res=-1;
     Pais pais;
     archivo = fopen(ARCHIVO_PAISES,"rb+");
-    // Leer archivo
     while(fread(&pais,sizeof(Pais),1,archivo)==1){
         if(strcmp(reg._codigo,pais._codigo)==0){
             cin.ignore();
-            pos=nroRegistro;
             fseek(archivo,ftell(archivo)-sizeof(Pais),0);
             cout<<"\tIngrese los datos del pais a modificar"<<endl;
             cout<<" "<<endl;
@@ -497,13 +494,12 @@ void grabarModificado(Pais reg){
     }
 };
 
-// Buscar pais x Codigo
+// Funcion: DEVUELVE PAIS By Codigo
 struct Pais buscarXCodigo(char *codigo){
     FILE *archivo;
     Pais pais;
     Pais paisX;
     archivo = fopen(ARCHIVO_PAISES,"rb");
-    // Leer archivo
     cout<<" "<<endl;
     while(fread(&pais,sizeof(Pais),1,archivo)==1){
         if(strcmp(codigo,pais._codigo)==0){
@@ -516,7 +512,7 @@ struct Pais buscarXCodigo(char *codigo){
 
 // 8) --------------------------------------------------------------
 
-// Pido el codigo de la ciudad a modificar.
+// Funcion: MODIFICAR CIUDAD (Se pide el Id de Ciudad)
 void modificarCiudad(){
     int id;
     cout<<" "<<endl;
@@ -555,7 +551,6 @@ void modificarCiudad(){
                 cout<<"\tEl codigo de pais ingresado es incorrecto:  "<<endl;
                 cout<<" "<<endl;
             }
-
         } else {
             cout<<" "<<endl;
             cout<<"\Volver al menu."<<endl;
@@ -568,15 +563,14 @@ void modificarCiudad(){
     }
 };
 
+// Funcion: EXISTE CIUDAD ? (By Id Ciudad)
 // Ingreso codigo ciudad y verifico si existe
 // Verifico si existe Registro. (SOBRECARGA DE FUNCIONES)
 bool existeRegistro(int id){
     bool existe = false;
-    // Abrir archivo
     FILE *archivo;
     Ciudad ciudad;
     archivo = fopen(ARCHIVO_CIUDADES,"rb");
-    // Leer archivo
     while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
         if(id==ciudad._ID){
             existe=true;
@@ -586,13 +580,12 @@ bool existeRegistro(int id){
     return existe;
 };
 
+// Funcion: GUARDA CIUDAD MODIFICADA
 // Guardar Ciudad Modificada. (SOBRECARGA DE FUNCIONES)
 void grabarModificado(Ciudad reg){
-    // Abrir archivo
     FILE *archivo;
     Ciudad ciudad;
     archivo = fopen(ARCHIVO_CIUDADES,"rb+");
-    // Leer archivo
     int grabo=0;
     while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
         if(ciudad._ID==reg._ID){
@@ -620,12 +613,11 @@ void grabarModificado(Ciudad reg){
     }
 };
 
+// Funcion: MOSTRAR CIUDAD (By Id)
 void mostrarCiudad(int id){
-    // Abrir archivo
     FILE *archivo;
     Ciudad ciudad;
     archivo = fopen(ARCHIVO_CIUDADES,"rb");
-    // Leer archivo
     while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
         if(id==ciudad._ID){
             cout<<" "<<endl;
@@ -642,13 +634,12 @@ void mostrarCiudad(int id){
     fclose(archivo);
 };
 
+// Funcion: BUSCAR CIUDAD (By Id)
 struct Ciudad ciudadById(int id){
-    // Abrir archivo
     FILE *archivo;
     Ciudad ciudad;
     Ciudad city;
     archivo = fopen(ARCHIVO_CIUDADES,"rb");
-    // Leer archivo
     while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
         if(id==ciudad._ID){
             city=ciudad;
@@ -659,13 +650,14 @@ struct Ciudad ciudadById(int id){
 };
 
 // 9) --------------------------------------------------------------
+
+//Funcion: POBLACION MUNDIAL y PAISES
 void totalesPais_Poblacion(){
     FILE *archivo;
     Pais pais;
     long poblacionMundial=0;
     int cant=0;
     archivo = fopen(ARCHIVO_PAISES,"rb");
-    // Leer archivo
     while(fread(&pais,sizeof(Pais),1,archivo)==1){
         poblacionMundial=poblacionMundial+pais._poblacion;
         cant++;
@@ -686,15 +678,15 @@ void totalesPais_Poblacion(){
 };
 
 // 10) --------------------------------------------------------------
+
+// Funcion: CIUDAD de MAYOR POBLACION
 void buscarMayorPoblacion(){
     FILE *archivo;
     Ciudad ciudad;
     Ciudad superCiudad;
     long mayorPoblacion=0;
     int idCiudad;
-    // Abrir archivo
     archivo = fopen(ARCHIVO_CIUDADES,"rb");
-    // Leer archivo
     while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
         if(ciudad._poblacion>mayorPoblacion){
             mayorPoblacion=ciudad._poblacion;
@@ -728,30 +720,24 @@ void buscarMayorPoblacion(){
 /// ADICIONALES IMPORTANTES
 // Contar Registros Archivo Paises
 int contarPaises(){
-    int cant=0; // Cantidad de Registros del archivo
-    //Abrir Archivo
+    int cant=0;
     FILE *archivo;
     archivo = fopen(ARCHIVO_PAISES,"rb");
-    // Obteniendo cantidad de registros del archivo
     fseek (archivo, 0, SEEK_END);
     cant = (ftell(archivo))/sizeof(Pais);
     fseek (archivo, 0,0);
-    // Cerrar Archivo
     fclose(archivo);
     return cant;
 };
 
 // Contar Registros Archivo Ciudades
 int contarCiudades(){
-    int cant=0; // Cantidad de Registros del archivo
-    //Abrir Archivo
+    int cant=0;
     FILE *archivo;
     archivo = fopen(ARCHIVO_CIUDADES,"rb");
-    // Obteniendo cantidad de registros del archivo
     fseek (archivo, 0, SEEK_END);
     cant = (ftell(archivo))/sizeof(Ciudad);
     fseek (archivo, 0,0);
-    // Cerrar Archivo
     fclose(archivo);
     return cant;
 };
