@@ -51,7 +51,8 @@ void modificarCiudad();             // Pido el codigo de la ciudad a modificar.
 bool existeRegistro(int id);        // Verifico si existe Registro. (SOBRECARGA DE FUNCIONES)
                                     // Ingreso codigo pais y verifico si existe
 void grabarModificado(Ciudad reg);  // Guardar Ciudad Modificada. (SOBRECARGA DE FUNCIONES)
-
+void mostrarCiudad(int id);
+struct Ciudad ciudadById(int id);
 // 9) --------------------------------------------------------------
 void totalesPais_Poblacion();
 
@@ -512,6 +513,150 @@ struct Pais buscarXCodigo(char *codigo){
     fclose(archivo);
     return paisX;
 }
+
+// 8) --------------------------------------------------------------
+
+// Pido el codigo de la ciudad a modificar.
+void modificarCiudad(){
+    int id;
+    cout<<" "<<endl;
+    cout<<"\Modificar CIUDAD?"<<endl;
+    cout<<" "<<endl;
+    cout<<"\Ingrese el CODIGO de la CIUDAD a modificar: ";
+    cin>>id;
+    bool existe = existeRegistro(id);
+    if(existe){
+        int opcion;
+        cout<<" "<<endl;
+        cout<<"\tCIUDAD ENCONTRADA"<<endl;
+        mostrarCiudad(id);
+        cout<<" "<<endl;
+        cout<<"\tDesea modificar el codigo de pais de la CIUDAD:? (SI = 1 | NO = 9 ): ";
+        cin>>opcion;
+        if(opcion==1){
+            cin.ignore();
+            clrscr();
+            char codigo[4];
+            cout<<" "<<endl;
+            cout<<"\tIngrese el NUEVO CODIGO de PAIS:  ";
+            cin.getline(codigo,4);
+            bool existePais = existeRegistro(codigo);
+            if(existePais){
+                cout<<" "<<endl;
+                cout<<"\tCodigo correcto"<<endl;
+                cout<<" "<<endl;
+                Ciudad reg;
+                reg=ciudadById(id);
+                strcpy(reg._idpais,codigo);
+                grabarModificado(reg);
+                system("pause");
+            } else {
+                cout<<" "<<endl;
+                cout<<"\tEl codigo de pais ingresado es incorrecto:  "<<endl;
+                cout<<" "<<endl;
+            }
+
+        } else {
+            cout<<" "<<endl;
+            cout<<"\Volver al menu."<<endl;
+            cout<<" "<<endl;
+        }
+    } else {
+        cout<<" "<<endl;
+        cout<<"|tEl Id de Ciudad es Incorrecto"<<endl;
+        cout<<" "<<endl;
+    }
+};
+
+// Ingreso codigo ciudad y verifico si existe
+// Verifico si existe Registro. (SOBRECARGA DE FUNCIONES)
+bool existeRegistro(int id){
+    bool existe = false;
+    // Abrir archivo
+    FILE *archivo;
+    Ciudad ciudad;
+    archivo = fopen(ARCHIVO_CIUDADES,"rb");
+    // Leer archivo
+    while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
+        if(id==ciudad._ID){
+            existe=true;
+        }
+    }
+    fclose(archivo);
+    return existe;
+};
+
+// Guardar Ciudad Modificada. (SOBRECARGA DE FUNCIONES)
+void grabarModificado(Ciudad reg){
+    // Abrir archivo
+    FILE *archivo;
+    Ciudad ciudad;
+    archivo = fopen(ARCHIVO_CIUDADES,"rb+");
+    // Leer archivo
+    int grabo=0;
+    while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
+        if(ciudad._ID==reg._ID){
+            fseek(archivo,ftell(archivo)-sizeof(Ciudad),0);
+            ciudad._ID=reg._ID;
+            strcpy(ciudad._idpais,reg._idpais);
+            strcpy(ciudad._nombre,reg._nombre);
+            ciudad._poblacion=reg._poblacion;
+            grabo=fwrite(&ciudad,sizeof(Ciudad),1,archivo);
+            fclose(archivo);
+        }
+    }
+    fclose(archivo);
+    if(grabo==1){
+        cout<<" "<<endl;
+        cout<<"\tEl nuevo codigo se guardo satisfactoriamente"<<endl;
+        cout<<" "<<endl;
+        cout<<"\tCIUDAD:"<<endl;
+        cout<<" "<<endl;
+        mostrarCiudad(reg._ID);
+    } else {
+        cout<<" "<<endl;
+        cout<<"\tPor algun motivo NO pudo guardarse el nuevo codigo"<<endl;
+        cout<<" "<<endl;
+    }
+};
+
+void mostrarCiudad(int id){
+    // Abrir archivo
+    FILE *archivo;
+    Ciudad ciudad;
+    archivo = fopen(ARCHIVO_CIUDADES,"rb");
+    // Leer archivo
+    while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
+        if(id==ciudad._ID){
+            cout<<" "<<endl;
+            cout<<"\tNombre: "<<ciudad._nombre<<endl;
+            cout<<" "<<endl;
+            cout<<"\tPoblacion: "<<ciudad._poblacion<<endl;
+            cout<<" "<<endl;
+            cout<<"\tId Ciudad: "<<ciudad._ID<<endl;
+            cout<<" "<<endl;
+            cout<<"\tId Pais: "<<ciudad._idpais<<endl;
+            cout<<" "<<endl;
+        }
+    }
+    fclose(archivo);
+};
+
+struct Ciudad ciudadById(int id){
+    // Abrir archivo
+    FILE *archivo;
+    Ciudad ciudad;
+    Ciudad city;
+    archivo = fopen(ARCHIVO_CIUDADES,"rb");
+    // Leer archivo
+    while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
+        if(id==ciudad._ID){
+            city=ciudad;
+        }
+    }
+    fclose(archivo);
+    return city;
+};
 
 // 9) --------------------------------------------------------------
 void totalesPais_Poblacion(){

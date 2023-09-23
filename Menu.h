@@ -177,7 +177,7 @@ void menuCiudades(){
             break;
         case 2:
             clrscr();
-            //modificarCiudad();
+            modificarCiudad();
             break;
         case 0:
             cout << endl << endl;
