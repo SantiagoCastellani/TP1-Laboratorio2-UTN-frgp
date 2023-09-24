@@ -295,16 +295,20 @@ void menuConfiguracion(){
         system("pause");
         break;
     case 3:
-        cout<<"backup"<<endl;
+        backupPaises();
+        system("pause");
         break;
     case 4:
-        cout<<"backup"<<endl;
+        backupCiudades();
+        system("pause");
         break;
     case 5:
-        cout<<"backup"<<endl;
+        restaurarPaises();
+        system("pause");
         break;
     case 6:
-        cout<<"backup"<<endl;
+        restaurarCiudades();
+        system("pause");
         break;
     default:
         cout<<" "<<endl;

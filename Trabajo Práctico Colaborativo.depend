@@ -41,11 +41,11 @@
 
 1694185153 c:\users\santi\desktop\utn-curs\2-cuatrimes\laboratorio 2\tp-1\trabajo práctico colaborativo\structs.h
 
-1695583956 source:c:\users\santi\desktop\trabajo práctico colaborativo\main.cpp
+1695591969 source:c:\users\santi\desktop\trabajo práctico colaborativo\main.cpp
 	"Menu.h"
 	"Funciones.h"
 
-1695585662 c:\users\santi\desktop\trabajo práctico colaborativo\menu.h
+1695591969 c:\users\santi\desktop\trabajo práctico colaborativo\menu.h
 	<windows.h>
 	<iostream>
 	"graficos.h"
@@ -54,13 +54,13 @@
 1694185589 c:\users\santi\desktop\trabajo práctico colaborativo\graficos.h
 	<iostream>
 
-1695586245 c:\users\santi\desktop\trabajo práctico colaborativo\funciones.h
+1695592427 c:\users\santi\desktop\trabajo práctico colaborativo\funciones.h
 	<cstdio>
 	<string.h>
 	"Structs.h"
 	"libxl.h"
 
-1695259367 c:\users\santi\desktop\trabajo práctico colaborativo\structs.h
+1695591969 c:\users\santi\desktop\trabajo práctico colaborativo\structs.h
 
 1688134774 c:\users\santi\desktop\trabajo práctico colaborativo\libxl-4.2.0\include_cpp\libxl.h
 	"IBookT.h"

@@ -74,6 +74,12 @@ int contarCiudades();   // Cuenta el Nro de Registros de Ciudad
 /// PUNTOS 11 y 12 (OPCIONALES)
 /// COLOCAR AQUÍ LOS PROTOTIPOS DE LAS FUNCIONES
 
+// 11) --------------------------------------------------------------
+void backupPaises();
+void backupCiudades();
+void restaurarPaises();
+void restaurarCiudades();
+
 // 12) --------------------------------------------------------------
 void crearExcelPaises();        // Genera un archivo Excel con los Registros de Paises
 void crearExcelCiudades();        // Genera un archivo Excel con los Registros de Ciudades
@@ -748,6 +754,79 @@ int contarCiudades(){
     return cant;
 };
 
+// 11) --------------------------------------------------------------
+
+void backupPaises(){
+    FILE *archivo;
+    archivo=fopen(ARCHIVO_PAISES,"rb");
+    FILE *backup;
+    backup=fopen(BACKUP_PAISES,"ab+");
+    Pais pais;
+    while(fread(&pais,sizeof(Pais),1,archivo)==1){
+        fwrite(&pais,sizeof(Pais),1,backup);
+    }
+    fclose(archivo);
+    fclose(backup);
+    cout<<" "<<endl;
+    cout<<"\tBackup realizado: Backup-Paises.bak"<<endl;
+    cout<<" "<<endl;
+};
+
+void backupCiudades(){
+    FILE *archivo;
+    archivo=fopen(ARCHIVO_CIUDADES,"rb");
+    FILE *backup;
+    backup=fopen(BACKUP_CIUDADES,"ab+");
+    Ciudad ciudad;
+    while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
+        fwrite(&ciudad,sizeof(Ciudad),1,backup);
+    }
+    fclose(archivo);
+    fclose(backup);
+    cout<<" "<<endl;
+    cout<<"\tBackup realizado: Backup-Ciudades.bak"<<endl;
+    cout<<" "<<endl;
+};
+
+void restaurarPaises(){
+    FILE *backup;
+    backup=fopen(BACKUP_PAISES,"rb");
+    FILE *archivo;
+    archivo=fopen(ARCHIVO_PAISES,"wb");
+    Pais pais;
+    while(fread(&pais,sizeof(Pais),1,backup)==1){
+        fwrite(&pais,sizeof(Pais),1,archivo);
+    }
+    fclose(archivo);
+    fclose(backup);
+    cout<<" "<<endl;
+    cout<<"\tArchivos de Paises Restaurados."<<endl;
+    cout<<" "<<endl;
+};
+
+void restaurarCiudades(){
+    FILE *backup;
+    backup=fopen(BACKUP_CIUDADES,"rb");
+    if(backup){
+        FILE *archivo;
+        archivo=fopen(ARCHIVO_CIUDADES,"wb");
+        Ciudad ciudad;
+        while(fread(&ciudad,sizeof(Ciudad),1,backup)==1){
+            fwrite(&ciudad,sizeof(Ciudad),1,archivo);
+        }
+        fclose(archivo);
+        cout<<" "<<endl;
+        cout<<"\tArchivos de Ciudades Restauradas."<<endl;
+        cout<<" "<<endl;
+    } else {
+        cout<<" "<<endl;
+        cout<<"\tERROR: Aun no hay ningun backup realizado!"<<endl;
+        cout<<" "<<endl;
+    }
+    fclose(backup);
+};
+
+
 // 12) --------------------------------------------------------------
 
 // Funcion: GENERA EXCEL de PAISES
@@ -870,7 +949,7 @@ void crearExcelCiudades(){
         cout<<" "<<endl;
         book->release();
     }
-
 };
+
 
 #endif // FUNCIONES_H_INCLUDED

@@ -25,3 +25,7 @@ struct Ciudad
 // ARCHIVOS DE TEST
 const char *ARCHIVO_PAISES = "paisesTest.dat";
 const char *ARCHIVO_CIUDADES = "ciudadesTest.dat";
+
+// ARCHIVOS DE BACKUP
+const char *BACKUP_PAISES = "Backup-Paises.bak";
+const char *BACKUP_CIUDADES = "Backup-Ciudades.bak";
