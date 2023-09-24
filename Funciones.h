@@ -756,6 +756,7 @@ int contarCiudades(){
 
 // 11) --------------------------------------------------------------
 
+// Funcion: BACKUP de PAISES
 void backupPaises(){
     FILE *archivo;
     archivo=fopen(ARCHIVO_PAISES,"rb");
@@ -772,6 +773,7 @@ void backupPaises(){
     cout<<" "<<endl;
 };
 
+// Funcion: BACKUP de CIUDADES
 void backupCiudades(){
     FILE *archivo;
     archivo=fopen(ARCHIVO_CIUDADES,"rb");
@@ -788,22 +790,30 @@ void backupCiudades(){
     cout<<" "<<endl;
 };
 
+// Funcion: RESTAURAR PAISES
 void restaurarPaises(){
     FILE *backup;
     backup=fopen(BACKUP_PAISES,"rb");
-    FILE *archivo;
-    archivo=fopen(ARCHIVO_PAISES,"wb");
-    Pais pais;
-    while(fread(&pais,sizeof(Pais),1,backup)==1){
-        fwrite(&pais,sizeof(Pais),1,archivo);
+    if(backup){
+        FILE *archivo;
+        archivo=fopen(ARCHIVO_PAISES,"wb");
+        Pais pais;
+        while(fread(&pais,sizeof(Pais),1,backup)==1){
+            fwrite(&pais,sizeof(Pais),1,archivo);
+        }
+        fclose(archivo);
+        cout<<" "<<endl;
+        cout<<"\tArchivos de Paises Restaurados."<<endl;
+        cout<<" "<<endl;
+    } else {
+        cout<<" "<<endl;
+        cout<<"\tERROR: Aun no hay ningun backup realizado!"<<endl;
+        cout<<" "<<endl;
     }
-    fclose(archivo);
     fclose(backup);
-    cout<<" "<<endl;
-    cout<<"\tArchivos de Paises Restaurados."<<endl;
-    cout<<" "<<endl;
 };
 
+// Funcion: RESTAURAR CIUDADES
 void restaurarCiudades(){
     FILE *backup;
     backup=fopen(BACKUP_CIUDADES,"rb");
