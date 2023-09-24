@@ -8,6 +8,10 @@
 
 #include "Structs.h" // Librería con los Structs y constantes de los Archivos
 
+#include "libxl.h"
+
+using namespace libxl;
+
 Pais reg;
 
 /// --------------------------- PROTOTIPOS DE LAS FUNCIONES ---------------------------
@@ -70,7 +74,9 @@ int contarCiudades();   // Cuenta el Nro de Registros de Ciudad
 /// PUNTOS 11 y 12 (OPCIONALES)
 /// COLOCAR AQUÍ LOS PROTOTIPOS DE LAS FUNCIONES
 
-
+// 12) --------------------------------------------------------------
+void crearExcelPaises();        // Genera un archivo Excel con los Registros de Paises
+void crearExcelCiudades();        // Genera un archivo Excel con los Registros de Ciudades
 
 /// --------------------------- DESARROLLO DE LAS FUNCIONES ---------------------------
 
@@ -186,7 +192,7 @@ void mostrarPais(Pais reg){/*
     cout<<"Poblacion: "<<reg._poblacion<<endl;
     cout<<"Independencia: "<<reg._independencia<<endl;
     cout<<"Expectativa de Vida: "<<reg._expectativaDeVida<<endl;*/
-    cout<<"\t"<<reg._nombre<<" - ("<<reg._codigo<<")"<<reg._continente<<endl;
+    cout<<"\t"<<reg._nombre<<" - ("<<reg._codigo<<") - "<<reg._continente<<endl;
 };
 
 
@@ -742,5 +748,129 @@ int contarCiudades(){
     return cant;
 };
 
+// 12) --------------------------------------------------------------
+
+// Funcion: GENERA EXCEL de PAISES
+void crearExcelPaises(){
+    Book* book = xlCreateBook();
+    if (book){
+        Sheet* hoja = book->addSheet("PAISES");
+        if (hoja){
+
+            Format* campos = book->addFormat();
+            Font* font = book->addFont();
+            font->setSize(12);
+            font->setBold(true);
+            campos->setFont(font);
+            campos->setFillPattern(FILLPATTERN_SOLID);
+            campos->setPatternForegroundColor(COLOR_GRAY25);
+            campos->setBorder(BORDERSTYLE_THIN);
+            campos->setAlignH(ALIGNH_CENTER);
+            campos->setAlignV(ALIGNV_CENTER);
+            Format* datos = book->addFormat();
+            datos->setBorder(BORDERSTYLE_THIN);
+            datos->setAlignH(ALIGNH_CENTER);
+            datos->setAlignV(ALIGNV_CENTER);
+            hoja->setCol(0, 0, 2);
+            hoja->setCol(1, 1, 12);
+            hoja->setCol(2, 2, 12);
+            hoja->setCol(3, 3, 30); // Puse un tamaño acorde
+            hoja->setCol(4, 4, 25); // Puse un tamaño acorde
+            hoja->setCol(5, 5, 15);
+            hoja->setCol(6, 6, 15);
+            hoja->setCol(7, 7, 20);
+            hoja->setCol(8, 8, 28);
+            hoja->setCol(9, 9, 25);
+            hoja->writeStr(1, 1, "CODIGO",campos);
+            hoja->writeStr(1, 2, "CODIGO2",campos);
+            hoja->writeStr(1, 3, "NOMBRE",campos);
+            hoja->writeStr(1, 4, "CONTINENTE",campos);
+            hoja->writeStr(1, 5, "SUPERFICIE",campos);
+            hoja->writeStr(1, 6, "POBLACION",campos);
+            hoja->writeStr(1, 7, "INDEPENDENCIA",campos);
+            hoja->writeStr(1, 8, "EXPECTATIVA DE VIDA",campos);
+            hoja->writeStr(1, 9, "CAPITAL",campos);
+            FILE *archivo;
+            Pais pais;
+            archivo = fopen(ARCHIVO_PAISES,"rb");
+            int f=2;
+            while(fread(&pais,sizeof(Pais),1,archivo)==1){
+                hoja->writeStr(f, 1, pais._codigo,datos);
+                hoja->writeStr(f, 2, pais._codigo2,datos);
+                hoja->writeStr(f, 3, pais._nombre,datos);
+                hoja->writeStr(f, 4, pais._continente,datos);
+                hoja->writeNum(f, 5, pais._superficie,datos);
+                hoja->writeNum(f, 6, pais._poblacion,datos);
+                hoja->writeNum(f, 7, pais._independencia,datos);
+                hoja->writeNum(f, 8, pais._expectativaDeVida,datos);
+                Ciudad capital = ciudadById(pais._capital);
+                hoja->writeStr(f, 9, capital._nombre,datos);
+                f++;
+            }
+            fclose(archivo);
+        }
+        book->save("Registro_PAISES.xls");
+        cout<<" "<<endl;
+        cout<<"\tArchivo descargado: Registro_PAISES.xls"<<endl;
+        cout<<" "<<endl;
+        book->release();
+    }
+
+};
+
+// Funcion: GENERA EXCEL de ciudades
+void crearExcelCiudades(){
+    Book* book = xlCreateBook();
+    if (book){
+        Sheet* hoja = book->addSheet("CIUDADES");
+        if (hoja){
+            Format* campos = book->addFormat();
+            Font* font = book->addFont();
+            font->setSize(12);
+            font->setBold(true);
+            campos->setFont(font);
+            campos->setFillPattern(FILLPATTERN_SOLID);
+            campos->setPatternForegroundColor(COLOR_GRAY25);
+            campos->setBorder(BORDERSTYLE_THIN);
+            campos->setAlignH(ALIGNH_CENTER);
+            campos->setAlignV(ALIGNV_CENTER);
+            Format* datos = book->addFormat();
+            datos->setBorder(BORDERSTYLE_THIN);
+            datos->setAlignH(ALIGNH_CENTER);
+            datos->setAlignV(ALIGNV_CENTER);
+            hoja->setCol(0, 0, 2);
+            hoja->setCol(1, 1, 12);
+            hoja->setCol(2, 2, 30);
+            hoja->setCol(3, 3, 20);
+            hoja->setCol(4, 4, 35);
+            hoja->setCol(5, 5, 15);
+            hoja->writeStr(1, 1, "ID",campos);
+            hoja->writeStr(1, 2, "NOMBRE",campos);
+            hoja->writeStr(1, 3, "POBLACION",campos);
+            hoja->writeStr(1, 4, "PAIS",campos);
+            hoja->writeStr(1, 5, "ID PAIS",campos);
+            FILE *archivo;
+            Ciudad ciudad;
+            archivo = fopen(ARCHIVO_CIUDADES,"rb");
+            int f=2;
+            while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
+                hoja->writeNum(f, 1, ciudad._ID,datos);
+                hoja->writeStr(f, 2,ciudad._nombre,datos);
+                hoja->writeNum(f, 3, ciudad._poblacion,datos);
+                Pais pais = buscarXCodigo(ciudad._idpais);
+                hoja->writeStr(f, 4, pais._nombre,datos);
+                hoja->writeStr(f, 5, ciudad._idpais,datos);
+                f++;
+            }
+            fclose(archivo);
+        }
+        book->save("Registro_CIUDADES.xls");
+        cout<<" "<<endl;
+        cout<<"\tArchivo descargado: Registro_CIUDADES.xls"<<endl;
+        cout<<" "<<endl;
+        book->release();
+    }
+
+};
 
 #endif // FUNCIONES_H_INCLUDED

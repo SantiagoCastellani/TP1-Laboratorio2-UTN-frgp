@@ -12,6 +12,7 @@ using namespace std;
 void menuPaises();
 void menuCiudades();
 void menuReportes();
+void menuConfiguracion();
 
 int MenuPrincipal(){
     int opc;
@@ -55,6 +56,10 @@ int MenuPrincipal(){
         case 3:
             clrscr();
             menuReportes();
+            break;
+        case 4:
+            clrscr();
+            menuConfiguracion();
             break;
         case 0:
             cout << endl << endl;
@@ -256,5 +261,60 @@ void menuReportes(){
         }
     }
 }
+
+void menuConfiguracion(){
+    int opcion;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<"\tCONFIGURACION"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t1 - Descargar Registro de Paises (xls)"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t2 - Descargar Registro de Ciudades (xls)"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t3 - Realizar Backup de Paises"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t4 - Realizar Backup de Ciudades"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t5 - Restaurar Archivo de Paises"<<endl;
+    cout<<" "<<endl;
+    cout<<"\t6 - Restaurar Archivo de Ciudades"<<endl;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<" "<<endl;
+    cout<<"\tElija una opcion: ";
+    cin>>opcion;
+    clrscr();
+    switch(opcion){
+    case 1:
+        crearExcelPaises();
+        system("pause");
+        break;
+    case 2:
+        crearExcelCiudades();
+        system("pause");
+        break;
+    case 3:
+        cout<<"backup"<<endl;
+        break;
+    case 4:
+        cout<<"backup"<<endl;
+        break;
+    case 5:
+        cout<<"backup"<<endl;
+        break;
+    case 6:
+        cout<<"backup"<<endl;
+        break;
+    default:
+        cout<<" "<<endl;
+        cout<<" "<<endl;
+        cout<<"\tPareciera que no ha elegido ninguna opcion valida"<<endl;
+        break;
+    }
+}
+
+
+
 
 #endif // MENU_H_INCLUDED

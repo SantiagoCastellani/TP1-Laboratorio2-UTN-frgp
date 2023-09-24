@@ -14,11 +14,11 @@
 int main()
 {
 
+
     SetConsoleTitle("TRABAJO PRACTICO GRUPAL");
     MenuPrincipal();
-/*
-    int cant = contarCiudades();
-    int pai = contarPaises();
-    cout<<cant<<endl;
-    cout<<pai<<endl;*/
+    //crearExcelPaises();
+    //crearExcelCiudades();
+
+
 }
