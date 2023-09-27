@@ -280,6 +280,7 @@ void menuConfiguracion(){
     cout<<" "<<endl;
     cout<<"\t6 - RESTAURAR Archivo de CIUDADES"<<endl;
     cout<<" "<<endl;
+    cout<<"\t0 - REGRESAR Al Menu Principal"<<endl;
     cout<<" "<<endl;
     cout<<" "<<endl;
     cout<<"\tElija una opcion: ";
@@ -309,6 +310,9 @@ void menuConfiguracion(){
     case 6:
         restaurarCiudades();
         system("pause");
+        break;
+    case 0:
+        return;
         break;
     default:
         cout<<" "<<endl;

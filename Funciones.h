@@ -277,7 +277,7 @@ void listarPaises_Superficies(){
     cout<<"\tSuperficie Mundial Total: "<<superficieTotal<<endl;
     cout<<" "<<endl;
     for(int x=0;x<tam;x++){
-        long double porcentaje = (long double) (vPaises[x]._superficie)/superficieTotal;
+        float porcentaje =((vPaises[x]._superficie)*100)/superficieTotal;
         cout<<"\t"<<vPaises[x]._nombre<<" | Sup: "<<vPaises[x]._superficie<<" | "<<porcentaje<<"%"<<endl;
     }
     cout<<" "<<endl;
@@ -317,9 +317,6 @@ void totalesxContinente(){
         break;
     case 7:
         strcpy(continente,"Antarctica");
-        break;
-    case 8:
-        strcpy(continente,"Continente misterioso");
         break;
     default:
         cout<<" "<<endl;
@@ -387,8 +384,6 @@ int menuContinentes(){
     cout<<"\t6 - Oceania"<<endl;
     cout<<" "<<endl;
     cout<<"\t7 - Antarctica"<<endl;
-    cout<<" "<<endl;
-    cout<<"\t8 - Continente misterioso"<<endl;
     cout<<" "<<endl;
     cout<<" "<<endl;
     cout<<"\tElija una opcion: ";

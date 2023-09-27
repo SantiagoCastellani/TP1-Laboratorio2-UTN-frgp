@@ -5,8 +5,8 @@
 
 /// GRUPO N°:
 /// INTEGRANTES:
-    //  1):
-    //  2):
+    //  1): Ezequiel Benítez
+    //  2): Santiago Castellani
 
 #include "Menu.h"
 #include "Funciones.h"
