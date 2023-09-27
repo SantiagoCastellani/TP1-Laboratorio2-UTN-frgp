@@ -32,7 +32,7 @@ void mostrarPais(Pais reg); // Recibo el Registro leido del archivo y lo muestro
 void mostrarCiudadesxPais();                  // Leo el archivo Ciudades. Dentro de la función se debe pedir al Usuario que ingrese el nombre del Pais.
 struct Pais obtenerRegistroPais(char *pais);  // Recibe el codigo del Pais y busca su registro.
                                               // Revisar la opción de pedir primero el ingreso para obtener el Registro y luego leer el archivo Ciudades.
-void mostrarCiudadesxPaisYCapital(char *codigo,int idCapital);
+void mostrarCiudadesxPaisYCapital(char *codigo);
 
 // 5) --------------------------------------------------------------
 void listarPaises_Superficies();    // Leer y guardar los Registros en un Vector.
@@ -95,13 +95,9 @@ bool existeRegistro(char codigo[]){
     bool existe = false;
     FILE *archivo;
     archivo = fopen(ARCHIVO_PAISES,"rb");
-    fseek (archivo, 0, SEEK_END);
-    tam = (ftell(archivo))/sizeof(Pais);
-    fseek (archivo, 0,0);
-    Pais vPaises[tam];
-    fread(&vPaises,sizeof(Pais),tam,archivo);
-    for(int x=0;x<tam;x++){
-        if((strcmp(codigo,vPaises[x]._codigo))==0){
+    Pais pais;
+    while(fread(&pais,sizeof(Pais),1,archivo)==1){
+        if((strcmp(codigo,pais._codigo))==0){
             existe=true;
         }
     }
@@ -189,36 +185,27 @@ void leerPaises(){
 // Funcion: MOSTRAR PAIS (By Pais) (Muestra solo el nombre, el codigo y el continente)
 //(Mostrando toda la info, solo se veian los ultimos, por el tamaño de log que admite la consola)
 // Recibo el Registro leido del archivo y lo muestro. Registro x Registro, sin uso de Vectores.
-void mostrarPais(Pais reg){/*
-    cout<<"PAIS"<<endl;
-    cout<<"Nombre: "<<reg._nombre<<"\tCodigo: "<<reg._codigo<<" - Codigo2: "<<reg._codigo2<<endl;
-    cout<<"Capital: "<<reg._capital<<endl;
-    cout<<"Continente: "<<reg._continente<<endl;
-    cout<<"Superficie: "<<reg._superficie<<endl;
-    cout<<"Poblacion: "<<reg._poblacion<<endl;
-    cout<<"Independencia: "<<reg._independencia<<endl;
-    cout<<"Expectativa de Vida: "<<reg._expectativaDeVida<<endl;*/
-    cout<<"\t"<<reg._nombre<<" - ("<<reg._codigo<<") - "<<reg._continente<<endl;
+void mostrarPais(Pais reg){
+    cout<<"\t"<<reg._nombre<<" - ("<<reg._codigo<<")"<<endl;
 };
 
 
 // 4) --------------------------------------------------------------
 
 // Funcion: MOSTRAR CIUDAD (Pide un  Codigo de Pais)
-// Leo el archivo Ciudades. Dentro de la función se debe pedir al Usuario que ingrese el nombre del Pais.
+// Leo el archivo Ciudades. Dentro de la función se debe pedir al Usuario que ingrese el codigo del Pais.
 void mostrarCiudadesxPais(){
     char codigo[4];
     cout<<" "<<endl;
     cout<<" Ingrese el codigo de pais en mayusculas: ";
     cin.getline(codigo,4);
     clrscr();
-    Pais pais = obtenerRegistroPais(codigo);
-    if(strcmp(codigo,pais._codigo)==0){
-        int idCapital = pais._capital;
+    if(existeRegistro(codigo)){
+        Pais pais = obtenerRegistroPais(codigo);
         cout<<" "<<endl;
         cout<<"\tCiudades de "<<pais._nombre<<endl;
         cout<<" "<<endl;
-        mostrarCiudadesxPaisYCapital(codigo,idCapital);
+        mostrarCiudadesxPaisYCapital(codigo);
         cout<<" "<<endl;
     } else {
         cout<<" "<<endl;
@@ -239,22 +226,22 @@ struct Pais obtenerRegistroPais(char *codigo){
                 return pais;
             }
         }
+        fclose(archivo);
     }
     fclose(archivo);
 };
 
 // Funcion: MUESTRA LAS CIUDADES Y LA CAPITAL DADO UN CODIGO DE PAIS
-void mostrarCiudadesxPaisYCapital(char *codigo,int idCapital){
+void mostrarCiudadesxPaisYCapital(char *codigo){
     FILE *archivo;
     Ciudad ciudad;
-    Ciudad ciudadCapital;
+    Pais pais=obtenerRegistroPais(codigo);
+    int idCapital=pais._capital;
+    Ciudad ciudadCapital=ciudadById(idCapital);
     archivo = fopen(ARCHIVO_CIUDADES,"rb");
     while(fread(&ciudad,sizeof(Ciudad),1,archivo)==1){
         if((strcmp(codigo,ciudad._idpais))==0){
             cout<<"\t"<<ciudad._nombre<<" - Poblacion: "<<ciudad._poblacion<<endl;
-        }
-        if(idCapital==ciudad._ID){
-            ciudadCapital=ciudad;
         }
     }
     cout<<""<<endl;
@@ -291,11 +278,6 @@ void listarPaises_Superficies(){
     cout<<" "<<endl;
     for(int x=0;x<tam;x++){
         long double porcentaje = (long double) (vPaises[x]._superficie)/superficieTotal;
-    /*
-        cout<<"Pais: "<<vPaises[x]._nombre<<endl;
-        cout<<"Superficie: "<<vPaises[x]._superficie<<" | Porcentaje: "<<porcentaje<<"%"<<endl;
-        cout<<" "<<endl;
-    */
         cout<<"\t"<<vPaises[x]._nombre<<" | Sup: "<<vPaises[x]._superficie<<" | "<<porcentaje<<"%"<<endl;
     }
     cout<<" "<<endl;
